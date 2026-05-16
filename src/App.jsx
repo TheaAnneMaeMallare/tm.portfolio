@@ -9,7 +9,7 @@ const videoResumeEmbedUrl =
 const linkedinUrl = "https://www.linkedin.com/in/thea-mallare/";
 const githubUrl = "https://github.com/TheaAnneMaeMallare";
 const emailAddress = "theaannemae.mallare@gmail.com";
-const phoneNumber = "09216850223";
+const emailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailAddress}`;
 
 const navItems = [
   { id: "home", label: "Home" },
@@ -173,6 +173,8 @@ function App() {
   const [certificatePage, setCertificatePage] = useState(0);
   const [certificatesPerPage, setCertificatesPerPage] = useState(3);
   const [certificateDirection, setCertificateDirection] = useState("forward");
+  const [blogPage, setBlogPage] = useState(0);
+  const [blogDirection, setBlogDirection] = useState("forward");
 
   const activeProjectShot = projectGallery[activeProjectIndex] ?? projectGallery[0];
 
@@ -256,6 +258,8 @@ function App() {
     certificatePage * certificatesPerPage,
     certificatePage * certificatesPerPage + certificatesPerPage,
   );
+  const totalBlogPages = blogPosts.length;
+  const visibleBlogPost = blogPosts[blogPage] ?? blogPosts[0];
 
   useEffect(() => {
     setCertificatePage((currentPage) =>
@@ -270,6 +274,15 @@ function App() {
 
     setCertificateDirection(nextPage > certificatePage ? "forward" : "backward");
     setCertificatePage(nextPage);
+  };
+
+  const changeBlogPage = (nextPage) => {
+    if (nextPage === blogPage) {
+      return;
+    }
+
+    setBlogDirection(nextPage > blogPage ? "forward" : "backward");
+    setBlogPage(nextPage);
   };
 
   return (
@@ -303,7 +316,7 @@ function App() {
           }
           aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
         >
-          {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          {theme === "dark" ? "☀" : "☾"}
         </button>
 
       </nav>
@@ -351,8 +364,8 @@ function App() {
             </div>
 
             <div className="highlight-card">
-              <span className="highlight-label">Style</span>
-              <strong>Clean, simple, and easy to use</strong>
+              <span className="highlight-label">Location</span>
+              <strong>Manila, Philippines</strong>
             </div>
 
             <div className="highlight-card">
@@ -380,7 +393,12 @@ function App() {
               >
                 in
               </a>
-              <a href={`mailto:${emailAddress}`} aria-label="Send an email">
+              <a
+                href={emailComposeUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Send an email"
+              >
                 @
               </a>
               <a
@@ -412,6 +430,12 @@ function App() {
             </p>
           </div>
 
+          <div className="info-card left-card">
+            <p>
+              Design meets <strong>clarity</strong> and purposeful execution.
+            </p>
+          </div>
+
           <div className="info-card code-card">
             <pre>{`function createImpact() {
   let passion = true;
@@ -431,38 +455,52 @@ function App() {
           <h2>Focused on design, logic, and real-world usability.</h2>
         </div>
         <div className="section-card about-card">
-          <p>
-            I am an IT student who enjoys building interfaces that look refined
-            and behave clearly across devices. My work combines visual design,
-            frontend structure, and practical problem solving, with a strong
-            interest in systems that are organized, usable, and easy to manage.
+          <div className="about-intro">
+            <p>
+              I am a 4th year graduating IT student from New Era University,
+              based in Manila, Philippines, with a strong interest in frontend
+              development, interface design, and systems that feel clear,
+              useful, and polished in real use.
+            </p>
+          </div>
+
+          <div className="about-quick-facts">
+            <span className="about-fact-pill">
+              <span className="about-fact-icon">NE</span>
+              <span>New Era University</span>
+            </span>
+            <span className="about-fact-pill">
+              <span className="about-fact-icon">M</span>
+              <span>Manila, Philippines</span>
+            </span>
+          </div>
+
+          <p className="about-summary">
+            My work combines visual design, frontend structure, and practical
+            problem solving. I enjoy building interfaces that look refined,
+            behave clearly across devices, and stay organized enough to be easy
+            to manage.
           </p>
 
-          <div className="about-subsections">
-            <div className="about-subsection">
-              <h3>Core Areas</h3>
-              <div className="about-chip-list">
-                <span className="about-chip">Frontend Development</span>
-                <span className="about-chip">Admin Dashboard Systems</span>
-                <span className="about-chip">UI/UX Design</span>
-                <span className="about-chip">Firebase Integration</span>
-                <span className="about-chip">Responsive Interfaces</span>
-              </div>
-            </div>
-
-            <div className="about-subsection">
-              <h3>Technologies &amp; Tools</h3>
-              <p className="about-tools-line">
-                React Native • React • Firebase • JavaScript • TypeScript •
-                Vite
-              </p>
+          <div className="about-focus-block">
+            <h3>Tech Stack &amp; Focus</h3>
+            <div className="about-chip-list about-chip-list-centered">
+              <span className="about-chip">React Native</span>
+              <span className="about-chip">React</span>
+              <span className="about-chip">TypeScript</span>
+              <span className="about-chip">Firebase</span>
+              <span className="about-chip">UI/UX Design</span>
+              <span className="about-chip">Frontend Development</span>
+              <span className="about-chip">Admin Dashboard Systems</span>
+              <span className="about-chip">Responsive Interfaces</span>
+              <span className="about-chip">Vite</span>
             </div>
           </div>
         </div>
         <div className="video-resume-card">
           <div className="video-resume-header">
             <div className="video-resume-copy">
-              <span className="video-badge">Video Resume</span>
+              <p className="section-kicker">Video Resume</p>
               <h3>Introduction and experience summary</h3>
             </div>
           </div>
@@ -477,7 +515,8 @@ function App() {
               allowFullScreen
             />
           </div>
-        </div>      </section>
+        </div>
+      </section>
 
       <section className="content-section" id="projects">
         <div className="section-heading">
@@ -681,33 +720,59 @@ function App() {
           </div>
         </div>
 
-        <div className="certifications-carousel">
-          <div
-            key={`${certificatePage}-${certificatesPerPage}`}
-            className={`certifications-grid certifications-grid-${certificateDirection}`}
-            style={{
-              gridTemplateColumns: `repeat(${visibleCertificates.length}, minmax(240px, 320px))`,
-            }}
+        <div className="carousel-stage">
+          <button
+            type="button"
+            className="certifications-nav carousel-side-nav"
+            onClick={() =>
+              changeCertificatePage(Math.max(certificatePage - 1, 0))
+            }
+            disabled={certificatePage === 0}
+            aria-label="Previous certifications"
           >
-            {visibleCertificates.map((certificate) => (
-              <button
-                key={certificate.filename}
-                type="button"
-                className="certificate-card"
-                onClick={() => setSelectedCertificate(certificate)}
-              >
-                <img
-                  src={certificate.src}
-                  alt={certificate.title}
-                  className="certificate-image"
-                />
-                <span className="certificate-overlay">
-                  <span className="certificate-badge">{certificate.category}</span>
-                  <span className="certificate-title">{certificate.title}</span>
-                </span>
-              </button>
-            ))}
+            &larr;
+          </button>
+          <div className="certifications-carousel">
+            <div
+              key={`${certificatePage}-${certificatesPerPage}`}
+              className={`certifications-grid certifications-grid-${certificateDirection}`}
+              style={{
+                gridTemplateColumns: `repeat(${visibleCertificates.length}, minmax(240px, 320px))`,
+              }}
+            >
+              {visibleCertificates.map((certificate) => (
+                <button
+                  key={certificate.filename}
+                  type="button"
+                  className="certificate-card"
+                  onClick={() => setSelectedCertificate(certificate)}
+                >
+                  <img
+                    src={certificate.src}
+                    alt={certificate.title}
+                    className="certificate-image"
+                  />
+                  <span className="certificate-overlay">
+                    <span className="certificate-badge">{certificate.category}</span>
+                    <span className="certificate-title">{certificate.title}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
+          <button
+            type="button"
+            className="certifications-nav carousel-side-nav"
+            onClick={() =>
+              changeCertificatePage(
+                Math.min(certificatePage + 1, totalCertificatePages - 1),
+              )
+            }
+            disabled={certificatePage === totalCertificatePages - 1}
+            aria-label="Next certifications"
+          >
+            &rarr;
+          </button>
         </div>
 
         <div className="certifications-dots" aria-label="Certification pages">
@@ -733,16 +798,82 @@ function App() {
           <h2>Personal reflections on learning, technology, and direction.</h2>
         </div>
 
-        <div className="blog-grid">
-          {blogPosts.map((post) => (
-            <article key={post.title} className="section-card blog-card">
-              <div className="blog-meta">
-                <span className="blog-date">{post.date}</span>
-              </div>
-              <h3>{post.title}</h3>
-              <p className="blog-excerpt">{post.excerpt}</p>
-              <p className="blog-body">{post.body}</p>
-            </article>
+        <div className="blog-intro">
+          <p>
+            A personal space for stories, reflections, and lessons from my path
+            in technology and student life.
+          </p>
+        </div>
+
+        <div className="blog-controls">
+          <div className="certifications-controls">
+            <button
+              type="button"
+              className="certifications-nav"
+              onClick={() => changeBlogPage(Math.max(blogPage - 1, 0))}
+              disabled={blogPage === 0}
+              aria-label="Previous blog post"
+            >
+              &lsaquo;
+            </button>
+            <button
+              type="button"
+              className="certifications-nav"
+              onClick={() => changeBlogPage(Math.min(blogPage + 1, totalBlogPages - 1))}
+              disabled={blogPage === totalBlogPages - 1}
+              aria-label="Next blog post"
+            >
+              &rsaquo;
+            </button>
+          </div>
+        </div>
+
+        <div className="carousel-stage carousel-stage-blog">
+          <button
+            type="button"
+            className="certifications-nav carousel-side-nav"
+            onClick={() => changeBlogPage(Math.max(blogPage - 1, 0))}
+            disabled={blogPage === 0}
+            aria-label="Previous blog post"
+          >
+            &larr;
+          </button>
+          <div className="blog-carousel">
+            <div key={blogPage} className={`blog-grid blog-grid-${blogDirection}`}>
+              <article key={visibleBlogPost.title} className="section-card blog-card">
+                <div className="blog-meta">
+                  <span className="blog-date">{visibleBlogPost.date}</span>
+                </div>
+                <h3>{visibleBlogPost.title}</h3>
+                <p className="blog-excerpt">{visibleBlogPost.excerpt}</p>
+                <p className="blog-body">{visibleBlogPost.body}</p>
+              </article>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="certifications-nav carousel-side-nav"
+            onClick={() => changeBlogPage(Math.min(blogPage + 1, totalBlogPages - 1))}
+            disabled={blogPage === totalBlogPages - 1}
+            aria-label="Next blog post"
+          >
+            &rarr;
+          </button>
+        </div>
+
+        <div className="certifications-dots" aria-label="Blog pages">
+          {blogPosts.map((post, index) => (
+            <button
+              key={post.title}
+              type="button"
+              className={
+                index === blogPage
+                  ? "certifications-dot active"
+                  : "certifications-dot"
+              }
+              onClick={() => changeBlogPage(index)}
+              aria-label={`Go to blog post ${index + 1}`}
+            />
           ))}
         </div>
       </section>
@@ -770,26 +901,18 @@ function App() {
                 best place to start and LinkedIn is the quickest way to connect.
               </p>
             </div>
-            <div className="contact-actions">
-              <a className="primary-btn" href={`mailto:${emailAddress}`}>
-                <span className="contact-inline-icon">✉</span>
-                Send Email
-              </a>
-              <a
-                className="secondary-btn"
-                href={linkedinUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="contact-inline-icon">in</span>
-                LinkedIn <span>↗</span>
-              </a>
-            </div>
           </div>
 
           <div className="contact-connect-card">
             <p className="contact-connect-label">Connect with me</p>
             <div className="contact-links">
+              <a href={emailComposeUrl} target="_blank" rel="noreferrer">
+                <span className="contact-link-main">
+                  <span className="contact-link-icon">✉</span>
+                  <span>Email</span>
+                </span>
+                <span>{emailAddress}</span>
+              </a>
               <a href={linkedinUrl} target="_blank" rel="noreferrer">
                 <span className="contact-link-main">
                   <span className="contact-link-icon">in</span>
@@ -805,13 +928,6 @@ function App() {
                   <span>GitHub</span>
                 </span>
                 <span>↗</span>
-              </a>
-              <a href={`tel:${phoneNumber}`}>
-                <span className="contact-link-main">
-                  <span className="contact-link-icon">☎</span>
-                  <span>Phone</span>
-                </span>
-                <span>{phoneNumber}</span>
               </a>
             </div>
           </div>
