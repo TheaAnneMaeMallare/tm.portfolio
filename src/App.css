@@ -2180,6 +2180,17 @@ body[data-theme="light"] .video-open-link {
   color: #8f647a;
 }
 
+body[data-theme="light"] .about-fact-pill {
+  border-color: rgba(216, 79, 143, 0.2);
+  background: rgba(255, 244, 249, 0.82);
+  color: #7a5569;
+}
+
+body[data-theme="light"] .about-fact-icon {
+  background: rgba(255, 120, 180, 0.18);
+  color: #d84f8f;
+}
+
 body[data-theme="light"] .blog-excerpt {
   color: #6a5362;
 }
